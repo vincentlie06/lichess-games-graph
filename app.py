@@ -77,7 +77,7 @@ def render_graph():
     plt.plot(x_vals, current_games_ls, label='Current Games', color='green')
 
     plt.title("Number of Current Games on Lichess vs Expected Games")
-    plt.xlabel(f"Time ({UPDATE_RATE}s interval)")
+    plt.xlabel(f"Time ({UPDATE_RATE}s) interval)")
     plt.ylabel("Number of Games")
     plt.legend()
 
