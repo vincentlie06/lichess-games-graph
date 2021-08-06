@@ -4,6 +4,7 @@ import csv
 import os
 
 from itertools import count
+from datetime import datetime
 from matplotlib.animation import FuncAnimation
 from bs4 import BeautifulSoup
 
@@ -17,6 +18,7 @@ CSV_DELIM = ','
 x_vals = []
 expected_games_ls = []
 current_games_ls = []
+times = []
 index = count()
 
 plt.style.use('dark_background')
@@ -43,6 +45,8 @@ def update(i):
 
     current_games_ls.append(current_games)
     expected_games_ls.append(expected_games)
+    now = str(datetime.now())
+    times.append(now)
 
     render_graph()
 
@@ -54,20 +58,14 @@ def save_data():
     with open(SAVE_FILE, 'w') as f:
         w = csv.writer(f, delimiter=CSV_DELIM)
         for x in x_vals:
-            w.writerow([x, expected_games_ls[x], current_games_ls[x]])
+            w.writerow([x, expected_games_ls[x], current_games_ls[x], times[x]])
 
 def load_data():
     if os.path.exists(SAVE_FILE):
         with open(SAVE_FILE, 'r') as f:
             r = csv.reader(f, delimiter=CSV_DELIM)
             data = list(r)
-            
-            for line in data:
-                x = next(index)
-                x_vals.append(x)
-
-                expected_games_ls.append(int(line[1]))
-                current_games_ls.append(int(line[2]))
+            x_vals, expected_games_ls, current_games_ls, times = zip(*data)
 
     print("Data Loaded!")
 
